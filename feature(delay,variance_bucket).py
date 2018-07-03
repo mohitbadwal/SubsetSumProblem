@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-def func(x, un_var):
+def func(x,  un_var):
     index = np.where(un_var == x)
     return index[0][0]
 
