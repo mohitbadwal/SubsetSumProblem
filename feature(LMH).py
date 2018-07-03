@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
+
 dict_customer = {}
 
 def LMH_assign(val):
