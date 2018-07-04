@@ -188,9 +188,9 @@ if __name__ == '__main__':
     #     temp = temp.append(
     #         pd.read_csv(r'D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Mohit\\' + str(i), sep=',', index_col=0),
     #         ignore_index=True)
-    temp = pd.read_csv('D:\\ML_03_Subset_Sum\\new_data.csv')
+    temp = pd.read_csv('D:\\SubsetSumProblem\\new_data.csv')
     temp = reduce_mem_usage(temp)
-    with open(r'D:\ML_03_Subset_Sum\customer_level_features.json') as f:
+    with open(r'D:\SubsetSumProblem\JSON_feature_creation\customer_level_features.json') as f:
         data_dict = json.load(f)
 
     temp['payment_date'] = pd.to_datetime(temp['effective_date'])
@@ -248,4 +248,4 @@ if __name__ == '__main__':
             pool.close()
             pool.join()
             # print(transformed_dataframe)
-            transformed_dataframe.to_csv("D:\\Generated_Subset\\" + str(i) + ".csv")
+            transformed_dataframe.to_csv("D:\\SubsetSumProblem\\Generated\\" + str(i) + ".csv")
