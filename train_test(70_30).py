@@ -5,7 +5,6 @@ data2 = pd.DataFrame()
 count = 0
 customers = 0
 
-
 for i in os.listdir('D:\\SubsetSumProblem\\Subset_level'):
     print('readcsv ' + str(i))
     dataset = pd.read_csv(r'D:\\SubsetSumProblem\\Subset_level\\' + str(i), sep=',', index_col=0)
