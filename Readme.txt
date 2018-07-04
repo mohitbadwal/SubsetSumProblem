@@ -7,6 +7,7 @@ Run the scripts in the following order:
 2: feature(delay,variance_bucket).py
 3: feature(LMH).py
 4: feature(quarter_level).py
-5: roll_up_to_subset.py
-6: train_test(70_30).py
-7: subset_model
+5: delay_variance_check.py
+6: roll_up_to_subset.py
+7: train_test(70_30).py
+8: subset_model
