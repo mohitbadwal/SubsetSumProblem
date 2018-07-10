@@ -188,16 +188,26 @@ if __name__ == '__main__':
     #     temp = temp.append(
     #         pd.read_csv(r'D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Mohit\\' + str(i), sep=',', index_col=0),
     #         ignore_index=True)
-    temp = pd.read_csv('D:\\ML_03_Subset_Sum\\new_data.csv')
-    temp = reduce_mem_usage(temp)
-    with open(r'D:\ML_03_Subset_Sum\customer_level_features.json') as f:
+    temp = pd.concat([pd.read_csv(r'D:\backup\PycharmProjects\test\caa_ml_03\Starbucks\Mohit_starbucks\4.csv').reset_index(drop=True),
+                      pd.read_csv(r'D:\backup\PycharmProjects\test\caa_ml_03\Starbucks\Mohit_starbucks\5.csv').reset_index(drop=True),
+                      pd.read_csv(r'D:\backup\PycharmProjects\test\caa_ml_03\Starbucks\Mohit_starbucks\6.csv').reset_index(drop=True),
+                      pd.read_csv(r'D:\backup\PycharmProjects\test\caa_ml_03\Starbucks\Mohit_starbucks\7.csv').reset_index(drop=True)],
+                     ignore_index=True)
+    print(len(temp))
+    # temp = reduce_mem_usage(temp)
+    if temp['customer_number_norm'].dtype == np.float64:
+        temp['customer_number_norm'] = temp['customer_number_norm'].astype(np.int64)
+    temp['customer_number_norm'] = temp['customer_number_norm'].astype(str)
+    with open(r'D:\backup\PycharmProjects\test\caa_ml_03\Starbucks\customer_level_features.json') as f:
         data_dict = json.load(f)
 
     temp['payment_date'] = pd.to_datetime(temp['effective_date'])
     temp['invoice_date'] = pd.to_datetime(temp['invoice_date_norm'])
     temp['delay'] = temp['payment_date'].subtract(temp['invoice_date'], axis=0)
     temp['delay'] = temp['delay'].apply(lambda x: pd.Timedelta(x).days)
-    for i in temp['customer_number_norm'].unique()[8700:]:
+    # temp['invoice_number_norm'] = temp['invoice_number_norm'].astype(np.int64)
+    temp['invoice_number_norm'] = temp['invoice_number_norm'].astype(str)
+    for i in temp['customer_number_norm'].unique():
         data = temp[temp['customer_number_norm'] == i]
         print(i)
         print(len(data))
@@ -206,7 +216,7 @@ if __name__ == '__main__':
             data_dict[i]['max_payment_window'] = 400
         data = data[data['delay'] <= data_dict[i]['max_payment_window']]
         data = data[data['payment_amount'] >= data['invoice_amount_norm']]
-        data['invoice_number_norm'] = data['invoice_number_norm'].astype(str)
+
         print(len(data))
         if len(data) > 1:
             print("Data read")
@@ -231,12 +241,12 @@ if __name__ == '__main__':
                         for h, sub in enumerate(f):
                             for eachInvoice in sub:
                                 e = pd.DataFrame(eachInvoice, index=[h])
-                        # print(e)
-                        e = pd.concat([e, pd.DataFrame({"payment_id": payment_ids}, index=[h]),
-                                       pd.DataFrame({"payment_amount": payment_amount}, index=[h]),
-                                       pd.DataFrame({"payment_date": payment_date}, index=[h]),
-                                       pd.DataFrame({"customer_number": customer_name}, index=[h])], axis=1)
-                        gr = pd.concat([gr, e])
+                                # print(e)
+                                e = pd.concat([e, pd.DataFrame({"payment_id": payment_ids}, index=[h]),
+                                               pd.DataFrame({"payment_amount": payment_amount}, index=[h]),
+                                               pd.DataFrame({"payment_date": payment_date}, index=[h]),
+                                               pd.DataFrame({"customer_number": customer_name}, index=[h])], axis=1)
+                                gr = pd.concat([gr, e])
 
                         transformed_dataframe = pd.concat(
                             [transformed_dataframe,
@@ -248,4 +258,4 @@ if __name__ == '__main__':
             pool.close()
             pool.join()
             # print(transformed_dataframe)
-            transformed_dataframe.to_csv("D:\\Generated_Subset\\" + str(i) + ".csv")
+            transformed_dataframe.to_csv("D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Starbucks\\Generated\\" + str(i) + ".csv")
