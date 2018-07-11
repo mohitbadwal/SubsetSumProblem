@@ -1,3 +1,9 @@
+"""
+    test.py created by mohit.badwal
+    on 7/11/2018
+
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -64,6 +70,7 @@ def sssum(i, data_):
                                                         'invoice_date_norm', 'payment_hdr_id']].values
         #    print(datas)
         amounts = datas[:, 0].tolist()
+        amounts = [round(float(x), 5) for x in amounts]
         invoices = datas[:, 1].tolist()
         due_dates = datas[:, 2].tolist()
         invoice_dates = datas[:, 3].tolist()
@@ -118,7 +125,7 @@ def sum_bits(lists, sum1, id):
 
 
 def ssum_h(lists, n, subset, sum, li, iot, l):
-    if sum == 0:
+    if sum == round(float(0), 5):
         subset = subset[:-1]
         subset = '[' + subset + ']'
         # print(subset)
@@ -128,20 +135,19 @@ def ssum_h(lists, n, subset, sum, li, iot, l):
 
     if n == 0:
         return
-    if lists[0][n - 1] <= sum:
+    if lists[0][n - 1] <= round(float(sum), 5):
         ssum_h(lists, n - 1, subset, sum, li, iot, l)
 
         ssum_h(lists, n - 1,
                subset + '{"amount":' + str(lists[0][n - 1]) + ',"invoice":"' + str((lists[1][n - 1])) +
                '","invoice_date":"' + str(lists[3][n - 1]) + '","due_date":"' + str(lists[2][n - 1]) +
                '","payment_hdr_id":"' + str(lists[4][n - 1]) + '"},',
-               sum - lists[0][n - 1], li, iot, l)
+               round(float(sum - lists[0][n - 1]), 2), li, iot, l)
     else:
         ssum_h(lists, n - 1, subset, sum, li, iot, l)
 
 
 import numpy as np
-
 
 def reduce_mem_usage(df):
     """ iterate through all the columns of a dataframe and modify the data type
@@ -214,7 +220,7 @@ if __name__ == '__main__':
 
         if data_dict[i]['max_payment_window'] == 0:
             data_dict[i]['max_payment_window'] = 400
-        data = data[data['delay'] <= data_dict[i]['max_payment_window']]
+        # data = data[data['delay'] <= data_dict[i]['max_payment_window']]
         data = data[data['payment_amount'] >= data['invoice_amount_norm']]
 
         print(len(data))

@@ -8,9 +8,9 @@ def func(x, un_var):
 
 
 temporary = pd.DataFrame()
-for i in os.listdir('D:\\Generated_Subset'):
+for i in os.listdir('D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Starbucks\\Generated'):
     print('readcsv ' + str(i))
-    dataset = pd.read_csv(r'D:\\Generated_Subset\\' + str(i), sep=',',index_col=0)
+    dataset = pd.read_csv(r'D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Starbucks\\Generated\\' + str(i), sep=',',index_col=0)
     if len(dataset)>1:
         dataset['index']=dataset.index.values
         print(dataset['index'])
@@ -58,4 +58,4 @@ for i in os.listdir('D:\\Generated_Subset'):
             unique_variance.sort()
             data['variance_categorical'] = data['variance'].apply(func, args=(unique_variance,))
             new_data_more_new = pd.concat([new_data_more_new, data])
-            new_data_more_new.to_csv("D:\\SubsetSumProblem\\GeneratedFeaturesCSV\\" + str(i))
+            new_data_more_new.to_csv("D:\\backup\\PycharmProjects\\test\\caa_ml_03\\Starbucks\\Mohit_starbucks\\Generated\\" + str(i))
